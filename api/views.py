@@ -6,7 +6,8 @@ from api.parsers.utils import parse_url
 
 @api_view(['POST'])
 def parse(request):
-
+    """
+    Base route for parsing url
+    """
     return Response(parse_url(request.data))
 
-# Create your views here.

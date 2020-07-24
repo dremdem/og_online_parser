@@ -2,7 +2,22 @@
 Main module for serving parsers
 """
 
-from api.parsers.parser_selector import select_parser_by_id
+import importlib
+
+from api.models import OGInterface
+from api.parsers.base_parser import BaseInterfaceParser
+
+
+def select_parser_by_id(parser_id: int) -> BaseInterfaceParser:
+    """
+    Retrieve the parser's module and class names from the DB
+    :param parser_id: ID of a parse
+    :return: Parser class
+    """
+    parser = OGInterface.objects.get(pk=parser_id)
+    parser_module = importlib.import_module(f'api.parsers.{parser.module_name}')
+    _ParserClass = getattr(parser_module, parser.class_name)
+    return _ParserClass()
 
 
 def check_payload(payload: dict) -> bool:
@@ -32,10 +47,10 @@ def parse_url(payload: dict) -> str:
     if not data_validation:
         result['errors'] = 'Your response date is not valid'
 
-    _ParserClass = select_parser_by_id(payload['interface_id'])
-    parser = _ParserClass(payload['interface_id'])
+    parser = select_parser_by_id(payload['interface_id'])
+    parser.parse(payload['url'])
 
-    return parser.parse(payload['url'])
+    return parser.og_str_markup
 
 
 

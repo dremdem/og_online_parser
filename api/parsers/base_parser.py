@@ -1,20 +1,26 @@
 """
 Describes base class for parser interface
 """
-from api.models import OGInterface
-
+import json
 
 class BaseInterfaceParser:
-    def __init__(self, parser_id: int):
-        parser = OGInterface.objects.get(pk=parser_id)
-        self.name = parser.name
-        self.description = parser.description
-        self.github_link = parser.github_link
+
+    json_markup = {}
 
     def parse(self, url: str) -> dict:
         """
         Parse html-page by url and return OG-dict
+        Also you should to store OG mark as JSON to json_markup variable
         :param url:
         :return: dict with all OG attributes
         """
         raise NotImplementedError
+
+    @property
+    def og_str_markup(self):
+        """
+        Return OG markup as pretty printed str
+        """
+        return json.dumps(self.json_markup, indent=4)
+
+
