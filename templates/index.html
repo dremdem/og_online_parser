@@ -19,8 +19,10 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="parser_select">Select a parser:</label>
-                <select class="form-control" id="parser_select">
-                    <option v-for="parser in parser_list">[[ parser.name ]]</option>
+                <select v-model='current_parser' class="form-control" id="parser_select" >
+                    <option v-for="(parser, parser_id) in parser_list" v-bind:value="parser_id">
+                        [[parser.name]]
+                    </option>
                 </select>
             </div>
             <div class="form-group">
@@ -33,9 +35,10 @@
                     for parse</small>
             </div>
             <div class="form-group">
-                <h5 class="card-title">Parser name</h5>
-                <p class="card-text">Parser description</p>
-                <a href="#" class="card-link">Link to GitHub repo</a>
+                <h5 class="card-title">[[parser_list[current_parser].name]]</h5>
+                <p class="card-text">[[parser_list[current_parser].description]]</p>
+                <a v-bind:href="parser_list[current_parser].github_link" class="card-link">Link to
+                    GitHub repo</a>
             </div>
             <div class="form-group">
                 <a class="btn btn-primary btn-lg" href="#" role="button">Parse</a>
@@ -44,8 +47,6 @@
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -64,20 +65,24 @@
 </script>
 
 <script>
-    new Vue({
+    let v = new Vue({
         delimiters: ['[[', ']]'],
         el: '#app',
-        mounted: function() {
-            this.get_parsers()
+        mounted: function () {
+            this.get_parsers();
         },
         data: {
-            parser_list: []
+            parser_list: {
+                1: {'name': ''}
+            },
+            current_parser: 1
         },
         methods: {
             get_parsers() {
                 return axios.get('/parsers').then((response) => {
                     this.parser_list = response.data;
-                    console.log(this.parser_list)
+                    this.current_parser = Object.keys(this.parser_list)[0];
+                    console.log(this.current_parser)
                 })
             }
         }

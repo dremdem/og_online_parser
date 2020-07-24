@@ -53,25 +53,26 @@ def parse_url(payload: dict) -> str:
     return parser.og_str_markup
 
 
-def get_parsers() -> list:
+def get_parsers() -> dict:
     """
     Return all parsers from DB
-    :return: list of parsers with the following structure:
-    [{
-        'parser_id': <parser_id>,
-        'name': <name>,
-        'description': <description>,
-        'github_link': <link>
-     },
-    ...]
+    :return: dict of parsers with the following structure:
+    {
+        <parser_id>: {
+            'name': <name>,
+            'description': <description>,
+            'github_link': <link>
+        },
+        ...
+    }
     """
 
     parsers = OGInterface.objects.all()
-    parser_list = [{'parser_id': p.id,
-                    'name': p.name,
-                    'description': p.description,
-                    'github_link': p.github_link}
-                   for p in parsers]
+
+    parser_list = {
+        p.id: {'name': p.name,
+               'description': p.description,
+               'github_link': p.github_link}
+        for p in parsers}
 
     return parser_list
-
