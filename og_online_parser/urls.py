@@ -15,11 +15,12 @@ Including another URL conf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import parse, index
+from api.views import parse, index, parsers
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("parse/", parse, name='parse'),
+    path("parsers/", parsers, name='parsers'),
     path('', index, name='index'),
 ]

@@ -17,9 +17,9 @@ def parse(request):
 @api_view(['GET'])
 def parsers(request):
     """
-    Get all parser
+    Get all parsers
     """
-    return Response(get_parser())
+    return Response(get_parsers())
 
 
 def index(request):
