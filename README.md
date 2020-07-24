@@ -73,6 +73,7 @@ If the L is not defined then return the last N urls.
 * Python 3.8: https://www.python.org/
 * Django DRF: https://www.django-rest-framework.org/
 * VueJS: https://vuejs.org/
+* Axios: https://github.com/axios/axios
 * Sqllite: https://www.sqlite.org/
 
 ## Frontend

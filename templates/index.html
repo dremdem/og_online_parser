@@ -14,17 +14,13 @@
     <title>OG markup test parser</title>
 </head>
 <body>
-<div class="jumbotron">
+<div class="jumbotron" id="app">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <div class="form-group">
                 <label for="parser_select">Select a parser:</label>
                 <select class="form-control" id="parser_select">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option v-for="parser in parser_list">[[ parser.name ]]</option>
                 </select>
             </div>
             <div class="form-group">
@@ -60,6 +56,33 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+
+</script>
+
+<script>
+    new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        mounted: function() {
+            this.get_parsers()
+        },
+        data: {
+            parser_list: []
+        },
+        methods: {
+            get_parsers() {
+                return axios.get('/parsers').then((response) => {
+                    this.parser_list = response.data;
+                    console.log(this.parser_list)
+                })
+            }
+        }
+    })
+</script>
 
 </body>
 </html>
