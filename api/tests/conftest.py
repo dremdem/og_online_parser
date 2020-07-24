@@ -13,7 +13,7 @@ def test_parser_id(db) -> int:
                               description='python library for getting metadata',
                               module_name='md_parser',
                               class_name='MetaParser',
-                              github_link='github_link')
+                              github_link='https://github.com/jvanasco/metadata_parser')
     meta_parser.save()
 
     return meta_parser.id
