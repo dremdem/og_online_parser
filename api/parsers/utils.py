@@ -32,6 +32,16 @@ def check_payload(payload: dict) -> bool:
         return True
 
 
+def add_last_url(url: str) -> None:
+    """
+    Add the last url to the history
+    :param url: url string
+    """
+
+    # if this url will be found, then updated_at date will be updated
+    UrlHistory.objects.update_or_create(url=url)
+
+
 def parse_url(payload: dict) -> str:
     """
     Parsing url by responses data
@@ -52,7 +62,7 @@ def parse_url(payload: dict) -> str:
     parser = select_parser_by_id(payload['interface_id'])
     parser.parse(payload['url'])
 
-    UrlHistory(url=payload['url']).save()
+    add_last_url(payload['url'])
 
     return parser.og_str_markup
 
@@ -82,12 +92,12 @@ def get_parsers() -> dict:
     return parser_list
 
 
-def get_last_n_urls() -> list:
+def get_last_n_urls() -> dict:
     """
-    Return last N urls from the DB
+    Return last N urls from the DB sorted by updated date from new to old
     """
 
     last_urls = UrlHistory.objects.all().order_by('-updated_at')[:settings.LAST_N_URLS]
-    list_last_urls = [url.url for url in last_urls]
+    list_last_urls = {url.id: {url.url} for url in last_urls}
 
     return list_last_urls
