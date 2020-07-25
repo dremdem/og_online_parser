@@ -12,6 +12,13 @@
           crossorigin="anonymous">
 
     <title>OG markup test parser</title>
+    <style>
+        .has-error .form-control {
+            border-color: #a94442;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        }
+    </style>
 </head>
 <body>
 <div class="jumbotron" id="app">
@@ -31,7 +38,6 @@
                     <input type="text" v-model="url" class="form-control"
                            aria-label="Text input with segmented dropdown button"
                            placeholder="Enter valid url with open graph markup">
-                    {#                    <div class="input-group-append">#}
                     <div class="form-group">
                         <button type="button"
                                 class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
@@ -40,7 +46,8 @@
                         </button>
                         <div class="dropdown-menu">
                             <a @click.prevent="url=last_url" v-for="(last_url, url_id) in last_urls"
-                               class="dropdown-item" :href="last_url" :key="last_url">[[last_url]]</a>
+                               class="dropdown-item" :href="last_url"
+                               :key="last_url">[[last_url]]</a>
                         </div>
 
                     </div>
@@ -56,17 +63,30 @@
                         GitHub repo</a>
                 </div>
                 <div class="form-group">
-                    <a @click="parse" class="btn btn-primary btn-lg" href="#"
-                       role="button">Parse</a>
+                    <button @click="parse" class="btn btn-primary btn-lg">
+                        Parse
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button @click="save_to_file" class="btn btn-info btn-lg" :disabled="!parsed">
+                        Download
+                    </button>
                 </div>
             </div>
         </div>
 
+
         <div class="card border-dark mb-3">
-            <div class="card-header">[[url]]</div>
+            <div class="card-header">[[url]]
+            </div>
             <div class="card-body text-dark">
+                <div class="form-group has-error">
+                    <textarea class="form-control"></textarea>
+                </div>
                 {#                <p class="card-text">[[og_markup]]</p>#}
-                <textarea v-model="og_markup" class="form-control" id="exampleFormControlTextarea1"
+                <textarea v-model="og_markup" class="form-control"
+                          placeholder="Here will be an Open Graph markup"
+                          id="exampleFormControlTextarea1"
                           rows="20"></textarea>
             </div>
         </div>
@@ -107,7 +127,9 @@
             last_urls: {
                 1: 'http://ya.ru'
             },
-            og_markup: 'Here will be an Open Graph markup'
+            og_markup: '',
+            parsed: false,
+            crashed: false
         },
         methods: {
             get_parsers() {
@@ -128,8 +150,24 @@
                 }).then(response => {
                     this.og_markup = response.data;
                     this.get_last_urls();
+                    this.parsed = true;
+                    this.crashed = false
+                }).catch(error => {
+                    this.parsed = false;
+                    this.crashed = true;
+                    this.error = error
                 })
             },
+            save_to_file() {
+                const blob = new Blob([this.og_markup], {type: 'text/plain'});
+                const e = document.createEvent('MouseEvents');
+                a = document.createElement('a');
+                a.download = "og_export.json";
+                a.href = window.URL.createObjectURL(blob);
+                a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+                e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                a.dispatchEvent(e);
+            }
         }
     })
 </script>

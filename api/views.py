@@ -11,7 +11,11 @@ def parse(request):
     """
     Base route for parsing url
     """
-    return Response(parse_url(request.data))
+    try:
+        data = parse_url(request.data)
+        return Response(data)
+    except Exception as e:
+        return Response(data=str(e), exception=str(e))
 
 
 @api_view(['GET'])
