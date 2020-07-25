@@ -98,6 +98,6 @@ def get_last_n_urls() -> dict:
     """
 
     last_urls = UrlHistory.objects.all().order_by('-updated_at')[:settings.LAST_N_URLS]
-    list_last_urls = {url.id: {url.url} for url in last_urls}
+    list_last_urls = {url.id: url.url for url in last_urls}
 
     return list_last_urls

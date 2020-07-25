@@ -39,7 +39,7 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a @click.prevent="url=last_url" v-for="last_url in last_urls"
+                            <a @click.prevent="url=last_url" v-for="(last_url, url_id) in last_urls"
                                class="dropdown-item" :href="last_url" :key="last_url">[[last_url]]</a>
                         </div>
 
@@ -104,7 +104,9 @@
             },
             current_parser: 1,
             url: '',
-            last_urls: ['test'],
+            last_urls: {
+                1: 'http://ya.ru'
+            },
             og_markup: 'Here will be an Open Graph markup'
         },
         methods: {
