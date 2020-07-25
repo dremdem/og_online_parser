@@ -15,12 +15,13 @@ Including another URL conf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import parse, index, parsers
+from api.views import parse, index, parsers, last_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("parse/", parse, name='parse'),
     path("parsers/", parsers, name='parsers'),
+    path("last_urls/", last_urls, name='last_urls'),
     path('', index, name='index'),
 ]

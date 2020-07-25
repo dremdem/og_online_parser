@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.parsers.utils import parse_url, get_parsers
+from api.parsers.utils import parse_url, get_parsers, get_last_n_urls
 
 
 @api_view(['POST'])
@@ -20,6 +20,14 @@ def parsers(request):
     Get all parsers
     """
     return Response(get_parsers())
+
+
+@api_view(['GET'])
+def last_urls(request):
+    """
+    Get last urls
+    """
+    return Response(get_last_n_urls())
 
 
 def index(request):
