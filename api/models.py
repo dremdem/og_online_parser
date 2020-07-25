@@ -20,4 +20,8 @@ class UrlHistory(models.Model):
     Stores the last N parsed urls.
     Amount of N could be specified in the settings.
     """
-    url = models.URLField(verbose_name='Url link for parsing')
+    url = models.URLField(verbose_name='Url link for parsing', unique=True)
+    created_at = models.DateTimeField(verbose_name='Date and Time when url was created',
+                                      auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Date and Time when url was created',
+                                      auto_now=True)

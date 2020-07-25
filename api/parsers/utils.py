@@ -87,7 +87,7 @@ def get_last_n_urls() -> list:
     Return last N urls from the DB
     """
 
-    last_urls = UrlHistory.objects.all().order_by('-id')[:settings.LAST_N_URLS]
+    last_urls = UrlHistory.objects.all().order_by('-updated_at')[:settings.LAST_N_URLS]
     list_last_urls = [url.url for url in last_urls]
 
     return list_last_urls
