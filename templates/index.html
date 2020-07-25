@@ -39,11 +39,8 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
+                            <a @click.prevent="url=last_url" v-for="last_url in last_urls"
+                               class="dropdown-item" :href="last_url">[[last_url]]</a>
                         </div>
 
                     </div>
@@ -99,6 +96,7 @@
         el: '#app',
         mounted: function () {
             this.get_parsers();
+            this.get_last_urls();
         },
         data: {
             parser_list: {
@@ -106,6 +104,7 @@
             },
             current_parser: 1,
             url: '',
+            last_urls: ['test'],
             og_markup: 'Here will be og markup'
         },
         methods: {
@@ -116,6 +115,12 @@
                     console.log(this.current_parser)
                 })
             },
+            get_last_urls() {
+                return axios.get('/last_urls').then((response) => {
+                    this.last_urls = response.data;
+                    console.log(this.last_urls)
+                })
+            },
             parse() {
                 return axios.post('/parse/', {
                     'url': this.url,
@@ -123,7 +128,7 @@
                 }).then(response => {
                     this.og_markup = response.data
                 })
-            }
+            },
         }
     })
 </script>
