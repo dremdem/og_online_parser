@@ -52,6 +52,8 @@ def parse_url(payload: dict) -> str:
     parser = select_parser_by_id(payload['interface_id'])
     parser.parse(payload['url'])
 
+    UrlHistory(url=payload['url']).save()
+
     return parser.og_str_markup
 
 

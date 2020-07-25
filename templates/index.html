@@ -40,7 +40,7 @@
                         </button>
                         <div class="dropdown-menu">
                             <a @click.prevent="url=last_url" v-for="last_url in last_urls"
-                               class="dropdown-item" :href="last_url">[[last_url]]</a>
+                               class="dropdown-item" :href="last_url" :key="last_url">[[last_url]]</a>
                         </div>
 
                     </div>
@@ -105,20 +105,18 @@
             current_parser: 1,
             url: '',
             last_urls: ['test'],
-            og_markup: 'Here will be og markup'
+            og_markup: 'Here will be an Open Graph markup'
         },
         methods: {
             get_parsers() {
                 return axios.get('/parsers').then((response) => {
                     this.parser_list = response.data;
                     this.current_parser = Object.keys(this.parser_list)[0];
-                    console.log(this.current_parser)
-                })
+                });
             },
             get_last_urls() {
                 return axios.get('/last_urls').then((response) => {
                     this.last_urls = response.data;
-                    console.log(this.last_urls)
                 })
             },
             parse() {
@@ -126,7 +124,8 @@
                     'url': this.url,
                     'interface_id': this.current_parser
                 }).then(response => {
-                    this.og_markup = response.data
+                    this.og_markup = response.data;
+                    this.get_last_urls();
                 })
             },
         }
