@@ -1,5 +1,7 @@
 import pytest
 
+from django.core.management import call_command
+
 from api.models import OGInterface
 
 
@@ -17,3 +19,13 @@ def test_parser_id(db) -> int:
     meta_parser.save()
 
     return meta_parser.id
+
+
+@pytest.fixture
+def test_last_urls(db) -> None:
+    fixtures = ['urlhistory.json']
+
+    for fixture in fixtures:
+        call_command('loaddata', fixture)
+
+

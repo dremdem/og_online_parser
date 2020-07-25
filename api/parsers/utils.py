@@ -4,7 +4,9 @@ Main module for serving parsers
 
 import importlib
 
-from api.models import OGInterface
+from django.conf import settings
+
+from api.models import OGInterface, UrlHistory
 from api.parsers.base_parser import BaseInterfaceParser
 
 
@@ -76,3 +78,14 @@ def get_parsers() -> dict:
         for p in parsers}
 
     return parser_list
+
+
+def get_last_n_urls() -> list:
+    """
+    Return last N urls from the DB
+    """
+
+    last_urls = UrlHistory.objects.all().order_by('-id')[:settings.LAST_N_URLS]
+    list_last_urls = [url.url for url in last_urls]
+
+    return list_last_urls
