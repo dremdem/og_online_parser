@@ -12,13 +12,6 @@
           crossorigin="anonymous">
 
     <title>OG markup test parser</title>
-    <style>
-        .has-error .form-control {
-            border-color: #a94442;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-        }
-    </style>
 </head>
 <body>
 <div class="jumbotron" id="app">
@@ -27,7 +20,8 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="parser_select">Select a parser:</label>
-                    <select v-model='current_parser' class="form-control" id="parser_select">
+                    <select v-model='current_parser' class="form-control" id="parser_select"
+                            >
                         <option v-for="(parser, parser_id) in parser_list" v-bind:value="parser_id">
                             [[parser.name]]
                         </option>
@@ -58,9 +52,8 @@
                 <div class="form-group">
                     <h5 class="card-title">[[parser_list[current_parser].name]]</h5>
                     <p class="card-text">[[parser_list[current_parser].description]]</p>
-                    <a v-bind:href="parser_list[current_parser].github_link" class="card-link">Link
-                        to
-                        GitHub repo</a>
+                    <a v-bind:href="parser_list[current_parser].github_link" class="card-link">
+                        Link to GitHub repo</a>
                 </div>
                 <div class="form-group">
                     <button @click="parse" class="btn btn-primary btn-lg">
@@ -68,7 +61,8 @@
                     </button>
                 </div>
                 <div class="form-group">
-                    <button @click="save_to_file" class="btn btn-info btn-lg" :disabled="!parsed">
+                    <button @click="save_to_file" class="btn btn-info btn-lg"
+                            :disabled="!parsed || crashed">
                         Download
                     </button>
                 </div>
@@ -80,10 +74,6 @@
             <div class="card-header">[[url]]
             </div>
             <div class="card-body text-dark">
-                <div class="form-group has-error">
-                    <textarea class="form-control"></textarea>
-                </div>
-                {#                <p class="card-text">[[og_markup]]</p>#}
                 <textarea v-model="og_markup" class="form-control"
                           placeholder="Here will be an Open Graph markup"
                           id="exampleFormControlTextarea1"
@@ -131,6 +121,12 @@
             parsed: false,
             crashed: false
         },
+        watch: {
+            url() {
+                this.og_markup = '';
+                this.parsed = false
+            }
+        },
         methods: {
             get_parsers() {
                 return axios.get('/parsers').then((response) => {
@@ -155,7 +151,7 @@
                 }).catch(error => {
                     this.parsed = false;
                     this.crashed = true;
-                    this.error = error
+                    this.og_markup = error + '\n' + error.response.data;
                 })
             },
             save_to_file() {

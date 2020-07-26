@@ -15,7 +15,7 @@ def parse(request):
         data = parse_url(request.data)
         return Response(data)
     except Exception as e:
-        return Response(data=str(e), exception=str(e))
+        return Response(data=str(e), exception=str(e), status=500)
 
 
 @api_view(['GET'])
