@@ -25,7 +25,7 @@ def test_parsers(test_parser_id) -> None:
     client = APIClient()
     response = client.get('/parsers/')
     assert response.status_code == 200
-    assert type(response.data) == list
+    assert type(response.data) == dict
 
 
 def test_last_n_urls(test_last_urls) -> None:
