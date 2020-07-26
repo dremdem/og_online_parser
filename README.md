@@ -102,8 +102,8 @@ Last url block:
 ## Tests
 
 I'm going to use pytest-django implementation
-https://pytest-django.readthedocs.io/en/latest/
-https://aalvarez.me/posts/testing-django-and-drf-with-pytest/
-https://medium.com/@poorva.mahajan2990/django-drf-file-upload-and-pytest-a31923e9e9d1
+* https://pytest-django.readthedocs.io/en/latest/
+* https://aalvarez.me/posts/testing-django-and-drf-with-pytest/
+* https://medium.com/@poorva.mahajan2990/django-drf-file-upload-and-pytest-a31923e9e9d1
 
 
