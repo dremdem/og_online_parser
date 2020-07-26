@@ -13,7 +13,7 @@ def parse(request):
     """
     try:
         data = parse_url(request.data)
-        return Response(data)
+        return Response(data, content_type='text/html; charset=utf-8')
     except Exception as e:
         return Response(data=str(e), exception=str(e), status=500)
 

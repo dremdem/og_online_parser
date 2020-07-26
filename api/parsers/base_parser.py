@@ -3,6 +3,7 @@ Describes base class for parser interface
 """
 import json
 
+
 class BaseInterfaceParser:
 
     json_markup = {}
@@ -21,6 +22,6 @@ class BaseInterfaceParser:
         """
         Return OG markup as pretty printed str
         """
-        return json.dumps(self.json_markup, indent=4)
+        return json.dumps(self.json_markup, indent=4, ensure_ascii=False)
 
 
