@@ -10,6 +10,7 @@ django = "*"
 djangorestframework = "*"
 pytest-django = "*"
 opengraph = "*"
+python-opengraph-jaywink = "*"
 
 [requires]
 python_version = "3.8"
