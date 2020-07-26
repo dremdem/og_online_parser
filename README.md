@@ -6,9 +6,26 @@ This is the test task app that described in the [test_task_description.txt](test
 The general purpose of this app is generate a JSON by url.
 A JSON will contain a [Open Graph metadata](https://ogp.me/) extracted from an url.
 
-## Installation
+## Installation on nix
+
+open terminal and run the following commands:
+
+```shell script
+git clone git clone https://github.com/dremdem/og_online_parser.git
+cd og_online_parser
+pipenv install
+python manage.py migrate
+```
 
 ## Usage
+
+open terminal and run the following commands:
+
+```shell script
+python manage.py runserver
+```
+
+* open http://127.0.0.1:8000/
 
 ## Extensibility
 
