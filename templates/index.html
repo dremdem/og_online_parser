@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="parser_select">Select a parser:</label>
                     <select v-model='current_parser' class="form-control" id="parser_select"
-                            >
+                    >
                         <option v-for="(parser, parser_id) in parser_list" v-bind:value="parser_id">
                             [[parser.name]]
                         </option>
@@ -56,12 +56,15 @@
                         Link to GitHub repo</a>
                 </div>
                 <div class="form-group">
-                    <button @click="parse" class="btn btn-primary btn-lg">
-                        Parse
+                    <button @click="parse" class="btn btn-primary">
+                        <span v-show="parsing" class="spinner-border spinner-border-sm" role="status"
+                              aria-hidden="true"></span>
+
+                        [[parsing ? 'Parsing...': 'Parse']]
                     </button>
                 </div>
                 <div class="form-group">
-                    <button @click="save_to_file" class="btn btn-info btn-lg"
+                    <button @click="save_to_file" class="btn btn-info"
                             :disabled="!parsed || crashed">
                         Download
                     </button>
@@ -119,7 +122,8 @@
             },
             og_markup: '',
             parsed: false,
-            crashed: false
+            crashed: false,
+            parsing: false,
         },
         watch: {
             url() {
@@ -140,6 +144,7 @@
                 })
             },
             parse() {
+                this.parsing = true;
                 return axios.post('/parse/', {
                     'url': this.url,
                     'interface_id': this.current_parser
@@ -147,11 +152,13 @@
                     this.og_markup = response.data;
                     this.get_last_urls();
                     this.parsed = true;
-                    this.crashed = false
+                    this.crashed = false;
+                    this.parsing = false;
                 }).catch(error => {
                     this.parsed = false;
                     this.crashed = true;
                     this.og_markup = error + '\n' + error.response.data;
+                    this.parsing = false;
                 })
             },
             save_to_file() {
