@@ -12,7 +12,7 @@ def test_get_json_by_url(test_parser_id) -> None:
     """
     client = APIClient()
     response = client.post('/parse/',
-                           {'url': 'http://www.youtube.com', 'interface_id': '1'}, format='json')
+                           {'url': 'http://www.youtube.com', 'interface_id': test_parser_id}, format='json')
     assert response.status_code == 200
     assert type(response.data) == str
 

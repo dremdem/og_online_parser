@@ -5,10 +5,16 @@ from django.core.management import call_command
 
 
 def forward_func(apps, schema_editor):
+    """
+    Load deafult parsers
+    """
     call_command('loaddata', '../fixtures/parsers.json')
 
 
 def backward_func(apps, schema_editor):
+    """
+    There is no backward func at the moment
+    """
     print('Backward mock')
 
 

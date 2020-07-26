@@ -11,4 +11,3 @@ class HOParser(BaseInterfaceParser):
         og = OpenGraph(url=url)
         self.json_markup = og.__data__
         return self.og_str_markup
-

@@ -39,4 +39,3 @@ def index(request):
     The only index page
     """
     return render(request, 'index.html')
-

@@ -11,4 +11,3 @@ class MetaParser(BaseInterfaceParser):
         page = metadata_parser.MetadataParser(url=url)
         self.json_markup = page.metadata
         return self.og_str_markup
-

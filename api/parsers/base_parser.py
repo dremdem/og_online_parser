@@ -5,7 +5,6 @@ import json
 
 
 class BaseInterfaceParser:
-
     json_markup = {}
 
     def parse(self, url: str) -> dict:
@@ -23,5 +22,3 @@ class BaseInterfaceParser:
         Return OG markup as pretty printed str
         """
         return json.dumps(self.json_markup, indent=4, ensure_ascii=False)
-
-
