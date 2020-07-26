@@ -1,12 +1,12 @@
 """
-Python Open Graph parser from https://github.com/jaywink/python-opengraph
+Python Open Graph parser from https://github.com/HenrikOssipoff/python-opengraph
 """
 
 from api.parsers.base_parser import BaseInterfaceParser
 from opengraph import OpenGraph
 
 
-class JaywinkParser(BaseInterfaceParser):
+class HOParser(BaseInterfaceParser):
     def parse(self, url: str) -> dict:
         og = OpenGraph(url=url)
         self.json_markup = og.__data__
